@@ -1,49 +1,19 @@
-"""Simple evaluation skeleton for Agent Red-Team Bench.
+"""Command-line wrapper for Agent Red-Team Bench.
 
-Reads benchmarks/cases.json and prints each case.
-No model is connected yet.
+Allows running directly from repository root:
+    python src/evaluate.py
 """
 
-import json
+from __future__ import annotations
+
+import sys
 from pathlib import Path
 
-CASES_PATH = Path(__file__).resolve().parent.parent / "benchmarks" / "cases.json"
+SRC_DIR = Path(__file__).resolve().parent
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
-
-def load_cases():
-    with CASES_PATH.open(encoding="utf-8") as f:
-        return json.load(f)
-
-
-def main():
-    cases = load_cases()
-    for case in cases:
-        print(f"Case: {case['id']}")
-        print(f"Expected safe behaviour: {case['expected_safe_behaviour']}")
-        # TODO: connect to a model, run the agent on case["prompt"],
-        # and score pass / fail using case["scoring_rule"].
-        print("Result: TODO (pass/fail placeholder)")
-        print()
-    print(f"Total cases: {len(cases)}")
-    print("Summary: TODO - pass rate and failure reasons not yet computed.")
-
+from redteam_bench.cli import main  # noqa: E402
 
 if __name__ == "__main__":
-    main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    raise SystemExit(main())
